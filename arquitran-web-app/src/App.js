@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Navbar  from './components/Navbar';
+import {reactLocalStorage} from 'reactjs-localstorage';
+
 
 class App extends Component {
   constructor(props) {
@@ -8,6 +10,8 @@ class App extends Component {
       products: [],
       products_count: 0,
       actual_product: [],
+      jwt:  reactLocalStorage.get('jwt', null),
+      logged_in:  reactLocalStorage.get('logged_in', false)
     }
   }
 
@@ -62,17 +66,67 @@ class App extends Component {
     //    console.log('error in fetchProduct',err);
     //  });
     this.setState({
-      actual_product: {
-        "name": "Producto 2", "description": "Description product 2"
-      },
+      actual_product: [
+        {"name": "Producto hardcodeadi", "description": "Description product hardcodeadi"}
+      ],
       error: null,
     })
+  }
+
+  authUser(email, password) {
+    console.log('authUser');
+    /*const url = "";
+    return fetch(url,  {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        auth: {
+          email: email,
+          password: password
+        }
+      })
+    })
+      .then(data => data.json())
+      .then(data => {
+        this.setState({
+          jwt: data.jwt,
+          logged_in: true
+        });
+        console.log(data.jwt);
+        reactLocalStorage.set('jwt', data.jwt);
+        reactLocalStorage.set('logged_in', true);
+      })
+      .catch(err => {
+        console.log('error in authUser',err);
+      });
+      */
+
+      this.setState({
+        jwt: "some jwt",
+        logged_in: true
+      });
+      //to save user information
+      reactLocalStorage.set('jwt', this.state.jwt);
+      reactLocalStorage.set('logged_in', this.state.logged_in);
+  }
+
+  logOut() {
+    console.log('logOut');
+    this.setState({
+      jwt: null,
+      logged_in: false,
+    })
+    reactLocalStorage.set('jwt', null);
+    reactLocalStorage.set('logged_in', false);
   }
 
   render() {
     return (
       <div>
-        <Navbar/>
+        <Navbar reactLocalStorage={reactLocalStorage} logOut={this.logOut.bind(this)}/>
         <div className="">
           {React.Children.map(
             this.props.children,
@@ -83,6 +137,9 @@ class App extends Component {
 
                 products: this.state.products,
                 actual_product: this.state.actual_product,
+
+                authUser: this.authUser.bind(this),
+                logOut: this.logOut.bind(this),
               })
           ) }
         </div>

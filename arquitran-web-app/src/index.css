@@ -20,6 +20,24 @@ body {
   margin-bottom: 50px;
 }
 
+.right-btn {
+  margin-top: 30px;
+  float:right;
+}
+
+.left-btn {
+  margin-top: 30px;
+  float:left;
+}
+
+.mgtop {
+  margin-top: 30px;
+}
+
+.mgbottom {
+  margin-bottom: 30px;
+}
+
 input {
   margin-bottom: 10px;
 }

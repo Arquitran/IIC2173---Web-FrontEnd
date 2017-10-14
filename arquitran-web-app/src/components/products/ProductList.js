@@ -22,7 +22,7 @@ class ProductList extends Component {
     );
 
     return (
-      <div className="products container center-block text-center">
+      <div className="mgtop products container center-block text-center">
         <div>
           <h3>ProductsList</h3>
         </div>

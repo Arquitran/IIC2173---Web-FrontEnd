@@ -170,6 +170,16 @@ addProductToCart(product_id, quantity) {
 
 }
 
+submitOrder(address) {
+  //POST submit
+  console.log("Post -> Order", address);
+  this.setState({
+    shopping_cart: [],
+    shopping_cart_count: 0,
+    total_cart:0
+   })
+}
+
   render() {
     return (
       <BrowserRouter>
@@ -187,7 +197,8 @@ addProductToCart(product_id, quantity) {
                 <ProductList fetchProducts={() => this.fetchProducts()}
                              products={this.state.products}/>}/>
             <Route path='/cart' render = {props =>
-                <Cart shopping_cart={this.state.shopping_cart}/>}/>
+                <Cart shopping_cart={this.state.shopping_cart}
+                      submitOrder={(address) => this.submitOrder(address)}/>}/>
             <Route component={Page404}/>
           </Switch>
         </div>

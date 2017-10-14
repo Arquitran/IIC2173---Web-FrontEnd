@@ -40,7 +40,7 @@ class SignIn extends Component {
       return <Home/>
     }
     return (
-      <form onSubmit={this.handleSubmit.bind(this)} className="container text-center">
+      <form onSubmit={this.handleSubmit.bind(this)} className="mgtop container text-center">
         <h1>Sign In</h1>
         <div className="trip-form">
 

@@ -10,6 +10,9 @@ class App extends Component {
       products: [],
       products_count: 0,
       actual_product: [],
+      shopping_cart: [],
+      shopping_cart_count: 0,
+
       jwt:  reactLocalStorage.get('jwt', null),
       logged_in:  reactLocalStorage.get('logged_in', false)
     }
@@ -53,7 +56,7 @@ class App extends Component {
     //  headers: {
     //    "Content-Type": "application/json",
     //  },
-    //};
+    //};shopping_cart
     //return fetch(url, options)
     //  .then(data => data.json())
     //  .then(data => {
@@ -67,11 +70,26 @@ class App extends Component {
     //  });
     this.setState({
       actual_product: [
-        {"name": "Producto hardcodeadi", "description": "Description product hardcodeadi"}
+        {"name": "Producto hardcodeadi", "description": "Description product hardcodeadi", "id":2}
       ],
       error: null,
     })
   }
+
+  addProductToCart(product_id, quantity) {
+    console.log('addProductToCart, product)id: ' + product_id + ", quantity: " + quantity );
+
+    this.state.shopping_cart.push({
+      product_id: product_id,
+      quantity: quantity,
+      id: this.state.shopping_cart_count,
+    })
+    this.state.shopping_cart_count += 1;
+    this.setState(this.state);
+    console.log('shoppiong cart', this.state.shopping_cart );
+
+  }
+
 
   authUser(email, password) {
     console.log('authUser');
@@ -123,6 +141,10 @@ class App extends Component {
     reactLocalStorage.set('logged_in', false);
   }
 
+
+
+
+
   render() {
     return (
       <div>
@@ -137,6 +159,9 @@ class App extends Component {
 
                 products: this.state.products,
                 actual_product: this.state.actual_product,
+
+                addProductToCart: this.addProductToCart.bind(this),
+                shopping_cart: this.state.shopping_cart,
 
                 authUser: this.authUser.bind(this),
                 logOut: this.logOut.bind(this),

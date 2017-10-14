@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import AddProductToCart from './AddProductToCart';
 
 class Product extends Component {
   constructor(props) {
@@ -17,12 +18,14 @@ class Product extends Component {
       <div className='product-view'>
         <div className="product">
           <h1>product</h1>
-            {this.props.actual_product.map((product) => (
-              <div key={product.id}>
-                <h3>{product.name}</h3>
-                <h4>{product.description}</h4>
-              </div>
-            ))}
+          {this.props.actual_product.map((product) => (
+            <div key={product.id}>
+              <h3>{product.name}</h3>
+              <h4>{product.description}</h4>
+              <AddProductToCart product={product} key={product.id} addProductToCart={this.props.addProductToCart}/>
+
+            </div>
+          ))}
         </div>
       </div>
     )

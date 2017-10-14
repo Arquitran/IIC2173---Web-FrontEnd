@@ -6,6 +6,7 @@ import App from './App';
 import ProductsList from './components/products/ProductsList';
 import Product from './components/products/Product';
 import SignIn from './components/users/SignIn';
+import Cart from './components/cart/Cart';
 
 
 
@@ -15,6 +16,7 @@ ReactDOM.render(
       <Route path="/products" component={ProductsList}/>
       <Route path="/products/:productId" component={Product}/>
       <Route path="/signin" component={SignIn}/>
+      <Route path="/cart" component={Cart}/>
 
     </Route>
   </Router>

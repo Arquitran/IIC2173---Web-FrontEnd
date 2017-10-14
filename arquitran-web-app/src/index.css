@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+.right-btn-menu {
+  float:right;
+}
+
 .product-item {
   margin-top: 25px;
 }

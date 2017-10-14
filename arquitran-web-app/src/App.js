@@ -1,98 +1,36 @@
 import React, { Component } from 'react';
-import Navbar  from './components/Navbar';
-import {reactLocalStorage} from 'reactjs-localstorage';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Page404 from './components/Page404';
+import Navbar from './components/Navbar';
+//import Product from './components/products/Product';
+import SignIn from './components/users/SignIn';
+import Cart from './components/cart/Cart';
+import Home from './components/Home';
+import ProductList from './components/products/ProductList';
+import Product from './components/products/Product';
 
+//import Axios from 'axios';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      jwt: null,
+      logged_in: false,
       products: [],
-      products_count: 0,
-      actual_product: [],
+      actual_product: null,
       shopping_cart: [],
       shopping_cart_count: 0,
+      total_cart:0
 
-      jwt:  reactLocalStorage.get('jwt', null),
-      logged_in:  reactLocalStorage.get('logged_in', false)
     }
   }
 
+  authUser(user, password) {
+    console.log('logIn');
+    // LIBRERIA AXIOS PARA FETCH
 
-  fetchProducts() {
-    console.log('fetchProducts');
-    //const url = "";
-    //const options = {
-    //  headers: {
-    //    "Content-Type": "application/json",
-    //  },
-    //};
-    //return fetch(url, options)
-      //.then(data => data.json())
-      //.then(data => {
-      //  this.setState({
-      //    products: data,
-      //    products_count: data.lenght,
-      //    error: null,
-      //  });
-      //})
-      //.catch(err => {
-      //  console.log('error in fetchProducts', err);
-      //});
-    this.setState({
-      products: [
-        {"name": "Producto 1", "description": "Description product 1", "id":1},
-        {"name": "Producto 2", "description": "Description product 2", "id":2}
-      ],
-      products_count: 2,
-      error: null,
-    })
-  }
-
-  fetchProduct(id) {
-    console.log('fetchProduct', id);
-    //const url = ""+id;
-    //const options = {
-    //  headers: {
-    //    "Content-Type": "application/json",
-    //  },
-    //};shopping_cart
-    //return fetch(url, options)
-    //  .then(data => data.json())
-    //  .then(data => {
-    //    this.setState({
-    //      actual_product: data,
-    //      error: null,
-    //    });
-    //  })
-    //  .catch(err => {
-    //    console.log('error in fetchProduct',err);
-    //  });
-    this.setState({
-      actual_product: [
-        {"name": "Producto hardcodeadi", "description": "Description product hardcodeadi", "id":2}
-      ],
-      error: null,
-    })
-  }
-
-  addProductToCart(product_id, quantity) {
-    console.log('addProductToCart, product)id: ' + product_id + ", quantity: " + quantity );
-
-    this.state.shopping_cart.push({
-      product_id: product_id,
-      quantity: quantity,
-      id: this.state.shopping_cart_count,
-    })
-    this.state.shopping_cart_count += 1;
-    this.setState(this.state);
-    console.log('shoppiong cart', this.state.shopping_cart );
-
-  }
-
-
-  authUser(email, password) {
-    console.log('authUser');
     /*const url = "";
     return fetch(url,  {
       method: 'POST',
@@ -102,7 +40,7 @@ class App extends Component {
       },
       body: JSON.stringify({
         auth: {
-          email: email,
+          email: user,
           password: password
         }
       })
@@ -127,8 +65,8 @@ class App extends Component {
         logged_in: true
       });
       //to save user information
-      reactLocalStorage.set('jwt', this.state.jwt);
-      reactLocalStorage.set('logged_in', this.state.logged_in);
+      localStorage.setItem('jwt', this.state.jwt);
+      localStorage.setItem('logged_in', true);
   }
 
   logOut() {
@@ -137,38 +75,123 @@ class App extends Component {
       jwt: null,
       logged_in: false,
     })
-    reactLocalStorage.set('jwt', null);
-    reactLocalStorage.set('logged_in', false);
+    localStorage.setItem('jwt', null);
+    localStorage.setItem('logged_in', false);
+    console.log(localStorage.getItem("logged_in"));
   }
 
+  fetchProducts() {
+    console.log('fetchProducts');
+    //const url = "";
+    //const options = {
+    //  headers: {
+    //    "Content-Type": "application/json",
+    //  },
+    //};
+    //return fetch(url, options)
+      //.then(data => data.json())
+      //.then(data => {
+      //  this.setState({
+      //    products: data,
+      //    products_count: data.lenght,
+      //    error: null,
+      //  });
+      //})
+      //.catch(err => {
+      //  console.log('error in fetchProducts', err);
+      //});
+    this.setState({
+      products: [
+        {
+          "name": "Product 1",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+          "id":1
+        },
+        {
+          "name": "Product 2",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+          "id":2
+        },
+        {
+          "name": "Product 3",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+          "id":3
+        },
+        {
+          "name": "Product 4",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+          "id":4
+        }
+      ],
+      products_count: 2,
+      error: null,
+    })
+  }
 
+fetchProduct(id) {
+  console.log('fetchProduct', id);
+  //const url = ""+id;
+  //const options = {
+  //  headers: {
+  //    "Content-Type": "application/json",
+  //  },
+  //};shopping_cart
+  //return fetch(url, options)
+  //  .then(data => data.json())
+  //  .then(data => {
+  //    this.setState({
+  //      actual_product: data,
+  //      error: null,
+  //    });
+  //  })
+  //  .catch(err => {
+  //    console.log('error in fetchProduct',err);
+  //  });
+  this.setState({
+    actual_product: {
+      "name": `Product ${id}`,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+      "id":id
+    }
+  });
 
+}
 
+addProductToCart(product_id, quantity) {
+  this.setState({ total_cart: this.state.total_cart + parseInt(quantity, 10) });
+
+  this.state.shopping_cart.push({
+    product_id: product_id,
+    quantity: quantity,
+    id: this.state.shopping_cart_count,
+  })
+  this.setState({shopping_cart_count: this.state.shopping_cart_count + 1})
+  console.log(this.state.total_cart);
+
+}
 
   render() {
     return (
-      <div>
-        <Navbar reactLocalStorage={reactLocalStorage} logOut={this.logOut.bind(this)}/>
-        <div className="">
-          {React.Children.map(
-            this.props.children,
-            child => React.cloneElement(child,
-              {
-                fetchProducts: this.fetchProducts.bind(this),
-                fetchProduct:  this.fetchProduct.bind(this),
-
-                products: this.state.products,
-                actual_product: this.state.actual_product,
-
-                addProductToCart: this.addProductToCart.bind(this),
-                shopping_cart: this.state.shopping_cart,
-
-                authUser: this.authUser.bind(this),
-                logOut: this.logOut.bind(this),
-              })
-          ) }
+      <BrowserRouter>
+        <div>
+          <Navbar logOut={() => this.logOut()} total_cart={this.state.total_cart}/>
+          <Switch>
+            <Route exact path='/' component={Home}/>
+            <Route path='/signin' render={props =>
+                <SignIn authUser={() => this.authUser()}/>}/>
+            <Route path='/products/:id' render = {props =>
+                <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
+                         product={this.state.actual_product}
+                         addProductToCart={(id, quantity) => this.addProductToCart(id, quantity)}/>}/>
+            <Route path='/products' render = {props =>
+                <ProductList fetchProducts={() => this.fetchProducts()}
+                             products={this.state.products}/>}/>
+            <Route path='/cart' render = {props =>
+                <Cart shopping_cart={this.state.shopping_cart}/>}/>
+            <Route component={Page404}/>
+          </Switch>
         </div>
-      </div>
+      </BrowserRouter>
     );
   }
 }

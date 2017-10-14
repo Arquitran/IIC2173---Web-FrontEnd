@@ -9,17 +9,17 @@ class AddProductToCart extends Component {
   }
 
   handleChange(e) {
-    console.log(e.target.name);
     this.setState({
       [e.target.name]: e.target.value,
     })
   }
 
   handleSubmit(event) {
-    console.log('handleSubmit', this.state.quantity);
-    this.props.addProductToCart(this.props.product.id, this.state.quantity);
-    this.setStateOnSubmit()
     event.preventDefault();
+    this.props.addProductToCart(this.props.product.id, this.state.quantity);
+    this.setStateOnSubmit();
+    this.props.back("/products");
+
   }
 
   setStateOnSubmit() {
@@ -41,7 +41,7 @@ class AddProductToCart extends Component {
             className="form-control" type="number" placeholder='Quantity'/>
 
           <input
-            className="btn btn-default"
+            className="product-btn2 btn btn-success"
             type="submit"
             value="Add"/>
         </div>

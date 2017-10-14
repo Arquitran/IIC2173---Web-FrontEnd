@@ -3,3 +3,23 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.product-item {
+  margin-top: 25px;
+}
+
+.product-btn {
+  margin-bottom: 5px;
+}
+
+.product-btn2 {
+  margin-top: 10px;
+}
+
+.products {
+  margin-bottom: 50px;
+}
+
+input {
+  margin-bottom: 10px;
+}

@@ -4,7 +4,7 @@ class AddProductToCart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 0,
+      quantity: 1,
     }
   }
 
@@ -38,7 +38,10 @@ class AddProductToCart extends Component {
           <input ref={(input) => this.quantity = input}
             name="quantity"
             onChange={this.handleChange.bind(this)}
-            className="form-control" type="number" placeholder='Quantity'/>
+            className="form-control"
+            type="number"
+            placeholder='Quantity'
+            value={this.state.quantity}/>
 
           <input
             className="product-btn2 btn btn-success"

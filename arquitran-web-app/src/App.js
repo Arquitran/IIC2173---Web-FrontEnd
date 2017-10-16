@@ -207,7 +207,6 @@ submitOrder(address) {
 }
 
   render() {
-    const history = createBrowserHistory();
 
     return (
       <BrowserRouter>

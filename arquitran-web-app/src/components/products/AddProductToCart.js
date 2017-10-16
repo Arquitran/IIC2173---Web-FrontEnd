@@ -16,7 +16,7 @@ class AddProductToCart extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.addProductToCart(this.props.product.id, this.state.quantity);
+    this.props.addProductToCart(this.props.product.id, this.state.quantity, this.props.product.name);
     this.setStateOnSubmit();
     this.props.back("/products");
 
@@ -32,13 +32,13 @@ class AddProductToCart extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)} className="sign-in-form">
-        <h1>Add to shopping cart</h1>
+        <h4>Add to shopping cart</h4>
         <div className="trip-form">
 
           <input ref={(input) => this.quantity = input}
             name="quantity"
             onChange={this.handleChange.bind(this)}
-            className="form-control"
+            className="form-control quantity-input"
             type="number"
             placeholder='Quantity'
             value={this.state.quantity}/>
@@ -46,7 +46,7 @@ class AddProductToCart extends Component {
           <input
             className="product-btn2 btn btn-success"
             type="submit"
-            value="Add"/>
+            value="Add to Cart"/>
         </div>
       </form>
     )

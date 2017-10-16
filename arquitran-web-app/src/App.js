@@ -121,6 +121,31 @@ class App extends Component {
           "name": "Product 4",
           "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
           "id":4
+        },
+        {
+          "name": "Product 5",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+          "id":5
+        },
+        {
+          "name": "Product 6",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+          "id":6
+        },
+        {
+          "name": "Product 7",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+          "id":7
+        },
+        {
+          "name": "Product 8",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+          "id":8
+        },
+        {
+          "name": "Product 9",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+          "id":9
         }
       ],
       products_count: 2,
@@ -157,13 +182,14 @@ fetchProduct(id) {
 
 }
 
-addProductToCart(product_id, quantity) {
+addProductToCart(product_id, quantity, name) {
   this.setState({ total_cart: this.state.total_cart + parseInt(quantity, 10) });
 
   this.state.shopping_cart.push({
     product_id: product_id,
     quantity: quantity,
     id: this.state.shopping_cart_count,
+    name
   })
   this.setState({shopping_cart_count: this.state.shopping_cart_count + 1})
   console.log(this.state.total_cart);
@@ -181,6 +207,8 @@ submitOrder(address) {
 }
 
   render() {
+    const history = createBrowserHistory();
+
     return (
       <BrowserRouter>
         <div>
@@ -192,7 +220,7 @@ submitOrder(address) {
             <Route path='/products/:id' render = {props =>
                 <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
                          product={this.state.actual_product}
-                         addProductToCart={(id, quantity) => this.addProductToCart(id, quantity)}/>}/>
+                         addProductToCart={(id, quantity, name) => this.addProductToCart(id, quantity, name)}/>}/>
             <Route path='/products' render = {props =>
                 <ProductList fetchProducts={() => this.fetchProducts()}
                              products={this.state.products}/>}/>

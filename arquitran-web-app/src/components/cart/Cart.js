@@ -38,7 +38,7 @@ class Cart extends Component {
       return (
         <div className="card product-item" key={product.id}>
           <div className="card-body">
-            <h4>Item: {product.id}</h4>
+            <h4>{product.name}</h4>
             <h5>Quantity: {product.quantity}</h5>
             <h5>Product Id: {product.product_id}</h5>
           </div>
@@ -49,7 +49,7 @@ class Cart extends Component {
     return (
       <div className="mgtop products container center-block text-center">
         <div className="add-cart-list">
-          <h3>Cart</h3>
+          <h2>Cart</h2>
         </div>
         <div className="cart-list">
           {cartitems}

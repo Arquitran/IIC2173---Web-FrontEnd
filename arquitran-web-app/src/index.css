@@ -4,6 +4,12 @@ body {
   font-family: sans-serif;
 }
 
+.quantity-input {
+  max-width: 200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .right-btn-menu {
   float:right;
 }

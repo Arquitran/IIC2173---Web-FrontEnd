@@ -45,6 +45,7 @@ class Navbar extends Component {
             </li>
           </ul>
           <button className="btn btn-outline-primary right-btn-menu" type="submit"><NavLink to="/signin">Sign In</NavLink></button>
+          <button className="btn btn-outline-primary right-btn-menu" type="submit"><NavLink to="/signup">Sign Up</NavLink></button>
         </div>
       </nav>
     );

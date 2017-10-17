@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Page404 from './components/Page404';
 import Navbar from './components/Navbar';
 import SignIn from './components/users/SignIn';
+import SignUp from './components/users/SignUp';
 import Cart from './components/cart/Cart';
 import Home from './components/Home';
 import ProductList from './components/products/ProductList';
@@ -61,7 +62,17 @@ class App extends Component {
         console.log('error in authUser',err);
       });
       */
+      this.setState({
+        jwt: "some jwt",
+        logged_in: true
+      });
+      //to save user information
+      localStorage.setItem('jwt', this.state.jwt);
+      localStorage.setItem('logged_in', true);
+  }
 
+  registerUser(name, user, address, password) {
+    console.log('signUp');
       this.setState({
         jwt: "some jwt",
         logged_in: true
@@ -155,6 +166,8 @@ submitOrder(address) {
             <Route exact path='/' component={Home}/>
             <Route path='/signin' render={props =>
                 <SignIn authUser={() => this.authUser()}/>}/>
+            <Route path='/signup' render={props =>
+                <SignUp registerUser={() => this.registerUser()}/>}/>
             <Route path='/products/:id' render = {props =>
                 <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
                          product={this.state.actual_product}

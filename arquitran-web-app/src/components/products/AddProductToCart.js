@@ -16,9 +16,12 @@ class AddProductToCart extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.addProductToCart(this.props.product.id, this.state.quantity, this.props.product.name);
-    this.setStateOnSubmit();
-    this.props.back("/products");
+    if (this.props.product.context !== "MEDICAMENTOS"){
+      this.props.addProductToCart(this.props.product, this.state.quantity);
+      this.setStateOnSubmit();
+      this.props.back("/products");
+    }
+
 
   }
 
@@ -30,6 +33,10 @@ class AddProductToCart extends Component {
   }
 
   render() {
+    var classButton = "product-btn2 btn btn-success";
+    if (this.props.product.context === "MEDICAMENTOS"){
+      classButton += " disabled"
+    }
     return (
       <form onSubmit={this.handleSubmit.bind(this)} className="sign-in-form">
         <h4>Add to shopping cart</h4>
@@ -44,7 +51,7 @@ class AddProductToCart extends Component {
             value={this.state.quantity}/>
 
           <input
-            className="product-btn2 btn btn-success"
+            className={classButton}
             type="submit"
             value="Add to Cart"/>
         </div>

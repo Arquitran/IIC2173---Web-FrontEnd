@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Page404 from './components/Page404';
 import Navbar from './components/Navbar';
-//import Product from './components/products/Product';
 import SignIn from './components/users/SignIn';
 import Cart from './components/cart/Cart';
 import Home from './components/Home';
 import ProductList from './components/products/ProductList';
 import Product from './components/products/Product';
 
-//import Axios from 'axios';
+import {URL} from './index';
+
+import Axios from 'axios';
 
 class App extends Component {
 
@@ -18,10 +19,11 @@ class App extends Component {
     this.state = {
       jwt: null,
       logged_in: false,
+      categories: [],
+      actualCategory: null,
       products: [],
       actual_product: null,
       shopping_cart: [],
-      shopping_cart_count: 0,
       total_cart:0
 
     }
@@ -82,114 +84,51 @@ class App extends Component {
 
   fetchProducts() {
     console.log('fetchProducts');
-    //const url = "";
-    //const options = {
-    //  headers: {
-    //    "Content-Type": "application/json",
-    //  },
-    //};
-    //return fetch(url, options)
-      //.then(data => data.json())
-      //.then(data => {
-      //  this.setState({
-      //    products: data,
-      //    products_count: data.lenght,
-      //    error: null,
-      //  });
-      //})
-      //.catch(err => {
-      //  console.log('error in fetchProducts', err);
-      //});
-    this.setState({
-      products: [
-        {
-          "name": "Product 1",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-          "id":1
-        },
-        {
-          "name": "Product 2",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-          "id":2
-        },
-        {
-          "name": "Product 3",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-          "id":3
-        },
-        {
-          "name": "Product 4",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-          "id":4
-        },
-        {
-          "name": "Product 5",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-          "id":5
-        },
-        {
-          "name": "Product 6",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-          "id":6
-        },
-        {
-          "name": "Product 7",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-          "id":7
-        },
-        {
-          "name": "Product 8",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-          "id":8
-        },
-        {
-          "name": "Product 9",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-          "id":9
-        }
-      ],
-      products_count: 2,
-      error: null,
-    })
+    this.setState({ products: [], categories: [] })
+
+    Axios.get(URL)
+         .then(response => {
+           response.data.map(product => {
+             this.setState({ products: [...this.state.products, product] })
+             if (this.state.categories.indexOf(product.context) === -1) {
+               this.setState({ categories: [...this.state.categories, product.context] })
+             }
+             return true;
+           })
+           const actualCategory = this.state.categories[0];
+           this.setState( {actualCategory} )
+         })
+         .catch(error => console.log(error));
+  }
+
+  setActualCategory(category) {
+    this.setState({ actualCategory: category })
   }
 
 fetchProduct(id) {
   console.log('fetchProduct', id);
-  //const url = ""+id;
-  //const options = {
-  //  headers: {
-  //    "Content-Type": "application/json",
-  //  },
-  //};shopping_cart
-  //return fetch(url, options)
-  //  .then(data => data.json())
-  //  .then(data => {
-  //    this.setState({
-  //      actual_product: data,
-  //      error: null,
-  //    });
-  //  })
-  //  .catch(err => {
-  //    console.log('error in fetchProduct',err);
-  //  });
-  this.setState({
-    actual_product: {
-      "name": `Product ${id}`,
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-      "id":id
-    }
-  });
-
+  Axios.get(URL)
+       .then(response => {
+         response.data.map(product => {
+           if (product.id === id) {
+             this.setState({ actual_product: product })
+             return true
+           }
+           return false
+         })
+       })
+       .catch(error => console.log(error))
 }
 
-addProductToCart(product_id, quantity, name) {
+addProductToCart(product, quantity) {
   this.setState({ total_cart: this.state.total_cart + parseInt(quantity, 10) });
 
   this.state.shopping_cart.push({
-    product_id: product_id,
+    id: product.id,
     quantity: quantity,
-    id: this.state.shopping_cart_count,
-    name
+    group: product.group,
+    context: product.context,
+    area: product.area
   })
   this.setState({shopping_cart_count: this.state.shopping_cart_count + 1})
   console.log(this.state.total_cart);
@@ -219,10 +158,13 @@ submitOrder(address) {
             <Route path='/products/:id' render = {props =>
                 <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
                          product={this.state.actual_product}
-                         addProductToCart={(id, quantity, name) => this.addProductToCart(id, quantity, name)}/>}/>
+                         addProductToCart={(product, q) => this.addProductToCart(product, q)}/>}/>
             <Route path='/products' render = {props =>
                 <ProductList fetchProducts={() => this.fetchProducts()}
-                             products={this.state.products}/>}/>
+                             products={this.state.products}
+                             categories={this.state.categories}
+                             actualCategory={this.state.actualCategory}
+                             setActualCategory={(category) => this.setActualCategory(category)}/>}/>
             <Route path='/cart' render = {props =>
                 <Cart shopping_cart={this.state.shopping_cart}
                       submitOrder={(address) => this.submitOrder(address)}/>}/>

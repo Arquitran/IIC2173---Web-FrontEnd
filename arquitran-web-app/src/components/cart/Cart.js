@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Home from '../Home';
 import CheckOut from './CheckOut';
+import productImg from '../../assets/product.jpg'
 
 class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkout: false
+      checkout: false,
+      total: 0
     }
   }
 
@@ -37,29 +39,36 @@ class Cart extends Component {
     const cartitems = this.props.shopping_cart.map((product) => {
       return (
         <div className="card product-item" key={product.id}>
-          <div className="card-body">
-            <h4>{product.group}</h4>
-            <h5>Product Id: {product.id}</h5>
-            <h5>Context: {product.context}</h5>
-            <h5>Area: {product.area}</h5>
-            <h5>Quantity: {product.quantity}</h5>
+            <h5 className="card-header">{product.name}</h5>
+            <img className="card-img-top" src={productImg} alt={product.name} />
+            <div className="card-body">
+              <p className="card-title">${product.price}</p>
+            </div>
 
 
-          </div>
+
         </div>
       )
     })
 
     return (
-      <div className="mgtop products container center-block text-center">
-        <div className="add-cart-list">
+      <div className="container">
+
+          <div className="mgtop products center-block text-center">
           <h2>Cart</h2>
+          <br/>
+          <h5>Total: ${this.props.total_price}</h5>
+          <br/>
+          <button className="btn btn-outline-warning" onClick={() => this.checkOut()}>Check Out</button>
+          <div className="add-cart-list">
+
+          </div>
+          <div className="card-columns">
+            {cartitems}
+          </div>
         </div>
-        <div className="cart-list">
-          {cartitems}
-        </div>
-        <button className="btn btn-outline-warning right-btn" onClick={() => this.checkOut()}>Check Out</button>
       </div>
+
     );
   }
 

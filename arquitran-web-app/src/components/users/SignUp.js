@@ -22,7 +22,7 @@ class SignUp extends Component {
     event.preventDefault();
     console.log('handleSubmit', this.state.name, this.state.user,
       this.state.address, this.state.password);
-    if (this.state.confirm_password != this.state.password){
+    if (this.state.confirm_password !== this.state.password){
       console.log('handleSubmit', "password missmatch");
 
     } else {

@@ -18,7 +18,7 @@ class Navbar extends Component {
                 <NavLink exact className="nav-link" activeClassName="active" to="/">Home</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/products">Products</NavLink>
+                <NavLink className="nav-link" activeClassName="active" to="/categories">Products</NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" activeClassName="active" to="/cart">{`Cart (${this.props.total_cart})`}</NavLink>
@@ -41,7 +41,7 @@ class Navbar extends Component {
               <NavLink exact className="nav-link" activeClassName="active" to="/">Home</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" activeClassName="active" to="/products">Products</NavLink>
+              <NavLink className="nav-link" activeClassName="active" to="/categories">Products</NavLink>
             </li>
           </ul>
           <button className="btn btn-outline-primary right-btn-menu" type="submit"><NavLink to="/signin">Sign In</NavLink></button>

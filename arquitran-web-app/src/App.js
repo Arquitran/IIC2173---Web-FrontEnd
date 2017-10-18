@@ -7,9 +7,10 @@ import SignUp from './components/users/SignUp';
 import Cart from './components/cart/Cart';
 import Home from './components/Home';
 import ProductList from './components/products/ProductList';
+import CategoryList from './components/products/CategoryList';
 import Product from './components/products/Product';
 
-import {URL} from './index';
+import {URL_CATEGORIES, URL_PRODUCTS, MAX_PAGES} from './index';
 
 import Axios from 'axios';
 
@@ -22,10 +23,14 @@ class App extends Component {
       logged_in: false,
       categories: [],
       actualCategory: null,
+      actualSubCategory: null,
+      SubCategories: [],
       products: [],
       actual_product: null,
       shopping_cart: [],
-      total_cart:0
+      total_cart:0,
+      enableBuy: true,
+      total_price: 0
 
     }
   }
@@ -93,53 +98,92 @@ class App extends Component {
     console.log(localStorage.getItem("logged_in"));
   }
 
-  fetchProducts() {
-    console.log('fetchProducts');
-    this.setState({ products: [], categories: [] })
-
-    Axios.get(URL)
-         .then(response => {
-           response.data.map(product => {
-             this.setState({ products: [...this.state.products, product] })
-             if (this.state.categories.indexOf(product.context) === -1) {
-               this.setState({ categories: [...this.state.categories, product.context] })
+  fetchSubCategories() {
+    console.log('fetchSubCategories');
+    this.setState({ subCategories: [], categories: [] })
+    var i = 1;
+    while (i < MAX_PAGES) {
+      Axios.get(`${URL_CATEGORIES}?page=${i}`)
+           .then(response => {
+             if (response.data.length === 0) {
              }
-             return true;
+             response.data.map(product => {
+               this.setState({ subCategories: [...this.state.subCategories, product] })
+               if (this.state.categories.indexOf(product.context) === -1) {
+                 this.setState({ categories: [...this.state.categories, product.context] })
+               }
+               return true;
+             })
+             const actualCategory = this.state.categories[0];
+             this.setState( {actualCategory} )
            })
-           const actualCategory = this.state.categories[0];
-           this.setState( {actualCategory} )
-         })
-         .catch(error => console.log(error));
+           .catch(error => console.log(error));
+           i += 1;
+    }
+
+
+  }
+
+  fetchProducts(idSubCategory) {
+    console.log('fetchProducts');
+    this.setState({ products: [] })
+    var i = 1;
+    while (i < MAX_PAGES) {
+      Axios.get(`${URL_PRODUCTS}?page=${i}`)
+           .then(response => {
+             response.data.map(product => {
+               if (product.category === idSubCategory) {
+                 this.setState({ products: [...this.state.products, product] })
+               }
+               return true;
+             })
+           })
+           .catch(error => console.log(error));
+           i += 1;
+    }
+  }
+
+  setActualSubCategory(subCategory) {
+    this.setState({ actualSubCategory: subCategory })
   }
 
   setActualCategory(category) {
     this.setState({ actualCategory: category })
   }
 
+  enableBuy(bool) {
+    this.setState({ enableBuy: bool })
+  }
+
 fetchProduct(id) {
   console.log('fetchProduct', id);
-  Axios.get(URL)
-       .then(response => {
-         response.data.map(product => {
-           if (product.id === id) {
-             this.setState({ actual_product: product })
-             return true
-           }
-           return false
+  var i = 1;
+  while (i < MAX_PAGES) {
+    Axios.get(`${URL_PRODUCTS}?Page=${i}`)
+         .then(response => {
+           response.data.map(product => {
+             if (product.id === id) {
+               this.setState({ actual_product: product })
+               return true
+             }
+             return false
+           })
          })
-       })
-       .catch(error => console.log(error))
+         .catch(error => console.log(error))
+         i += 1;
+  }
+
 }
 
 addProductToCart(product, quantity) {
   this.setState({ total_cart: this.state.total_cart + parseInt(quantity, 10) });
+  this.setState({ total_price: this.state.total_price + parseInt(product.price, 10) })
 
   this.state.shopping_cart.push({
     id: product.id,
     quantity: quantity,
-    group: product.group,
-    context: product.context,
-    area: product.area
+    name: product.name,
+    price: product.price
   })
   this.setState({shopping_cart_count: this.state.shopping_cart_count + 1})
   console.log(this.state.total_cart);
@@ -152,7 +196,8 @@ submitOrder(address) {
   this.setState({
     shopping_cart: [],
     shopping_cart_count: 0,
-    total_cart:0
+    total_cart:0,
+    total_price: 0
    })
 }
 
@@ -168,18 +213,27 @@ submitOrder(address) {
                 <SignIn authUser={() => this.authUser()}/>}/>
             <Route path='/signup' render={props =>
                 <SignUp registerUser={() => this.registerUser()}/>}/>
-            <Route path='/products/:id' render = {props =>
+            <Route path='/categories/:idSubCategory/:id' render = {props =>
                 <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
                          product={this.state.actual_product}
+                         enableBuy={this.state.enableBuy}
                          addProductToCart={(product, q) => this.addProductToCart(product, q)}/>}/>
-            <Route path='/products' render = {props =>
-                <ProductList fetchProducts={() => this.fetchProducts()}
+            <Route path='/categories/:idSubCategory' render = {props =>
+                <ProductList {...props} fetchProducts={(id) => this.fetchProducts(id)}
                              products={this.state.products}
                              categories={this.state.categories}
-                             actualCategory={this.state.actualCategory}
-                             setActualCategory={(category) => this.setActualCategory(category)}/>}/>
+                             actualSubCategory={this.state.actualSubCategory}/>}/>
+            <Route path='/categories' render = {props =>
+               <CategoryList fetchSubCategories={() => this.fetchSubCategories()}
+                            subCategories={this.state.subCategories}
+                            categories={this.state.categories}
+                            actualCategory={this.state.actualCategory}
+                            setActualSubCategory={(subCategory) => this.setActualSubCategory(subCategory)}
+                            enableBuy={(bool) => this.enableBuy(bool)}
+                            setActualCategory={(category) => this.setActualCategory(category)}/>}/>
             <Route path='/cart' render = {props =>
                 <Cart shopping_cart={this.state.shopping_cart}
+                      total_price={this.state.total_price}
                       submitOrder={(address) => this.submitOrder(address)}/>}/>
             <Route component={Page404}/>
           </Switch>

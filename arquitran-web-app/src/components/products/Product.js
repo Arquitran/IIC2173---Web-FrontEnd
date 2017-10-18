@@ -11,7 +11,7 @@ class Product extends Component {
   }
 
   backToProductsList() {
-    this.props.history.push("/products");
+    this.props.history.push(`/categories/${this.props.match.params.idSubCategory}`);
   }
 
   render() {
@@ -29,16 +29,16 @@ class Product extends Component {
         <button className="mgtop btn btn-outline-secondary"
                 onClick={() => this.backToProductsList()}>Back</button>
         <div className="container text-center mgtop mgbottom">
-          <h2>{this.props.product.context}</h2>
-          <img src={productImg} alt={this.props.product.area} />
-          <h4>{this.props.product.area}</h4>
-          <h4>{this.props.product.group}</h4>
+          <h2>{this.props.product.name}</h2>
+          <img src={productImg} alt={this.props.product.name} />
+          <h4>${this.props.product.price}</h4>
           <br/>
           <br/>
           <AddProductToCart product={this.props.product}
                             key={this.props.product.id}
                             addProductToCart={this.props.addProductToCart}
-                            back={this.props.history.push}/>
+                            back={this.props.history.push}
+                            enableBuy={this.props.enableBuy}/>
         </div>
       </div>
 

@@ -21,7 +21,7 @@ class AddProductToCart extends Component {
     if (this.props.enableBuy){
       this.props.addProductToCart(this.props.product, this.state.quantity);
       this.setStateOnSubmit();
-      this.props.back("/categories");
+      this.props.back("/web/categories");
     }
 
 

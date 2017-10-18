@@ -5,13 +5,13 @@ import productImg from '../../assets/product.jpg';
 class Product extends Component {
   componentWillMount() {
     if (localStorage.getItem("logged_in") === "false"){
-      this.props.history.push('/signin');
+      this.props.history.push('/web/signin');
     }
     this.props.fetchProduct(parseInt(this.props.match.params.id, 10));
   }
 
   backToProductsList() {
-    this.props.history.push(`/categories/${this.props.match.params.idSubCategory}`);
+    this.props.history.push(`/web/categories/${this.props.match.params.idSubCategory}`);
   }
 
   render() {

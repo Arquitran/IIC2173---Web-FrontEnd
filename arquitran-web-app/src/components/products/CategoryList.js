@@ -48,7 +48,7 @@ class ProductList extends Component {
           <div key={category.id}>
             <Link className="card list-group-item-action"
                   onClick={() => this.handleClick(category)}
-                  to={`/categories/${category.id}`}
+                  to={`/web/categories/${category.id}`}
                   style={{ textDecoration: 'none', color:'black' }}>
               <h5 className="card-header">{category.area}</h5>
               <img className="card-img-top" src={productImg} alt={category.group} />

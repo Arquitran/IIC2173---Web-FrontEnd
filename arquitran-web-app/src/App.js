@@ -208,7 +208,7 @@ submitOrder(address) {
         <div>
           <Navbar logOut={() => this.logOut()} total_cart={this.state.total_cart}/>
           <Switch>
-            <Route exact path='/' component={Home}/>
+            <Route exact path='/web' component={Home}/>
             <Route path='/web/signin' render={props =>
                 <SignIn authUser={() => this.authUser()}/>}/>
             <Route path='/web/signup' render={props =>

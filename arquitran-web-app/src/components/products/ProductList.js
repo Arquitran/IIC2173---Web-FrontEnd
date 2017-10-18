@@ -8,7 +8,7 @@ class ProductList extends Component {
   }
 
   backToCategoryList() {
-    this.props.history.push("/categories");
+    this.props.history.push("/web/categories");
   }
 
   render() {
@@ -20,7 +20,7 @@ class ProductList extends Component {
         return (
           <div key={product.id}>
             <Link className="card list-group-item-action"
-                  to={`/categories/${this.props.match.params.idSubCategory}/${product.id}`}
+                  to={`/web/categories/${this.props.match.params.idSubCategory}/${product.id}`}
                   style={{ textDecoration: 'none', color:'black' }}>
               <h5 className="card-header">{product.name}</h5>
               <img className="card-img-top" src={productImg} alt={product.name} />

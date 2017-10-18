@@ -11,17 +11,17 @@ class Navbar extends Component {
           <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div><NavLink className="navbar-brand" to="/">Arquitran App</NavLink></div>
+          <div><NavLink className="navbar-brand" to="/web">Arquitran App</NavLink></div>
           <div className="collapse navbar-collapse" id="navbarToggler">
             <ul className="navbar-nav mr-auto mt-2 mt-md-0">
               <li className="nav-item">
-                <NavLink exact className="nav-link" activeClassName="active" to="/">Home</NavLink>
+                <NavLink exact className="nav-link" activeClassName="active" to="/web">Home</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/categories">Products</NavLink>
+                <NavLink className="nav-link" activeClassName="active" to="/web/categories">Products</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/cart">{`Cart (${this.props.total_cart})`}</NavLink>
+                <NavLink className="nav-link" activeClassName="active" to="/web/cart">{`Cart (${this.props.total_cart})`}</NavLink>
               </li>
             </ul>
             <button className="btn btn-outline-danger right-btn-menu" type="submit" onClick={this.props.logOut}>Log Out</button>
@@ -34,18 +34,18 @@ class Navbar extends Component {
         <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div><NavLink className="navbar-brand" to="/">Arquitran App</NavLink></div>
+        <div><NavLink className="navbar-brand" to="/web">Arquitran App</NavLink></div>
         <div className="collapse navbar-collapse" id="navbarToggler">
           <ul className="navbar-nav mr-auto mt-2 mt-md-0">
             <li className="nav-item">
-              <NavLink exact className="nav-link" activeClassName="active" to="/">Home</NavLink>
+              <NavLink exact className="nav-link" activeClassName="active" to="/web">Home</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" activeClassName="active" to="/categories">Products</NavLink>
+              <NavLink className="nav-link" activeClassName="active" to="/web/categories">Products</NavLink>
             </li>
           </ul>
-          <button className="btn btn-outline-primary right-btn-menu" type="submit"><NavLink to="/signin">Sign In</NavLink></button>
-          <button className="btn btn-outline-primary right-btn-menu" type="submit"><NavLink to="/signup">Sign Up</NavLink></button>
+          <button className="btn btn-outline-primary right-btn-menu" type="submit"><NavLink to="/web/signin">Sign In</NavLink></button>
+          <button className="btn btn-outline-primary right-btn-menu" type="submit"><NavLink to="/web/signup">Sign Up</NavLink></button>
         </div>
       </nav>
     );

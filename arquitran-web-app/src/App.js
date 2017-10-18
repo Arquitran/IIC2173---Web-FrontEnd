@@ -209,21 +209,21 @@ submitOrder(address) {
           <Navbar logOut={() => this.logOut()} total_cart={this.state.total_cart}/>
           <Switch>
             <Route exact path='/' component={Home}/>
-            <Route path='/signin' render={props =>
+            <Route path='/web/signin' render={props =>
                 <SignIn authUser={() => this.authUser()}/>}/>
-            <Route path='/signup' render={props =>
+            <Route path='/web/signup' render={props =>
                 <SignUp registerUser={() => this.registerUser()}/>}/>
-            <Route path='/categories/:idSubCategory/:id' render = {props =>
+            <Route path='/web/categories/:idSubCategory/:id' render = {props =>
                 <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
                          product={this.state.actual_product}
                          enableBuy={this.state.enableBuy}
                          addProductToCart={(product, q) => this.addProductToCart(product, q)}/>}/>
-            <Route path='/categories/:idSubCategory' render = {props =>
+                       <Route path='/web/categories/:idSubCategory' render = {props =>
                 <ProductList {...props} fetchProducts={(id) => this.fetchProducts(id)}
                              products={this.state.products}
                              categories={this.state.categories}
                              actualSubCategory={this.state.actualSubCategory}/>}/>
-            <Route path='/categories' render = {props =>
+                           <Route path='/web/categories' render = {props =>
                <CategoryList fetchSubCategories={() => this.fetchSubCategories()}
                             subCategories={this.state.subCategories}
                             categories={this.state.categories}
@@ -231,7 +231,7 @@ submitOrder(address) {
                             setActualSubCategory={(subCategory) => this.setActualSubCategory(subCategory)}
                             enableBuy={(bool) => this.enableBuy(bool)}
                             setActualCategory={(category) => this.setActualCategory(category)}/>}/>
-            <Route path='/cart' render = {props =>
+                          <Route path='/web/cart' render = {props =>
                 <Cart shopping_cart={this.state.shopping_cart}
                       total_price={this.state.total_price}
                       submitOrder={(address) => this.submitOrder(address)}/>}/>

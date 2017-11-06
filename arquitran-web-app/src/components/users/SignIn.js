@@ -12,7 +12,6 @@ class SignIn extends Component {
   }
 
   handleChange(e) {
-    console.log(e.target.name);
     this.setState({
       [e.target.name]: e.target.value,
     })
@@ -20,7 +19,6 @@ class SignIn extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('handleSubmit', this.state.password, this.state.user);
     this.setStateOnSubmit();
     this.props.authUser(this.state.user, this.state.password);
 
@@ -36,7 +34,8 @@ class SignIn extends Component {
   }
 
   render() {
-    if (localStorage.getItem("logged_in") === "true"){
+    //if (localStorage.getItem("logged_in") === "true"){
+    if (this.props.token !== '') {
       return <Home/>
     }
     return (

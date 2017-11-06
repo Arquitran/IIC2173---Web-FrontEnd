@@ -5,7 +5,8 @@ import { NavLink } from 'react-router-dom';
 class Navbar extends Component {
 
   render() {
-    if (localStorage.getItem("logged_in") === 'true'){
+    //if (localStorage.getItem("logged_in") === "true"){
+    if (this.props.token !== '') {
       return (
         <nav className="navbar navbar-toggleable-md navbar-light bg-faded navbot">
           <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,8 +24,10 @@ class Navbar extends Component {
               <li className="nav-item">
                 <NavLink className="nav-link" activeClassName="active" to="/web/cart">{`Cart (${this.props.total_cart})`}</NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" activeClassName="active" to="/web" onClick={this.props.logOut}>Log Out</NavLink>
+              </li>
             </ul>
-            <button className="btn btn-outline-danger right-btn-menu" type="submit" onClick={this.props.logOut}>Log Out</button>
           </div>
         </nav>
       );
@@ -43,9 +46,13 @@ class Navbar extends Component {
             <li className="nav-item">
               <NavLink className="nav-link" activeClassName="active" to="/web/categories">Products</NavLink>
             </li>
-          </ul>
-          <button className="btn btn-outline-primary right-btn-menu" type="submit"><NavLink to="/web/signin">Sign In</NavLink></button>
-          <button className="btn btn-outline-primary right-btn-menu" type="submit"><NavLink to="/web/signup">Sign Up</NavLink></button>
+            <li className="nav-item">
+              <NavLink exact className="nav-link" activeClassName="active" to="/web/signin">Sign In</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink exact className="nav-link" activeClassName="active" to="/web/signup">Sign Up</NavLink>
+            </li>
+          </ul>          
         </div>
       </nav>
     );

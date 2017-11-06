@@ -6,6 +6,8 @@ import registerServiceWorker from './registerServiceWorker';
 
 export const URL_CATEGORIES = "http://arqss4.ing.puc.cl:3000/categorias";
 export const URL_PRODUCTS = "http://arqss4.ing.puc.cl:3000/productos";
+export const URL_SIGNUP = "https://private-edb58d-iic2113.apiary-mock.com/api/signup";
+export const URL_SIGNIN = "https://private-edb58d-iic2113.apiary-mock.com/api/signin";
 export const MAX_PAGES = 5;
 
 ReactDOM.render(<App />, document.getElementById('root'));

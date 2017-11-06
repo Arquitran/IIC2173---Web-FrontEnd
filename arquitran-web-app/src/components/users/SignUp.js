@@ -12,7 +12,6 @@ class SignUp extends Component {
   }
 
   handleChange(e) {
-    console.log(e.target.name);
     this.setState({
       [e.target.name]: e.target.value,
     })
@@ -20,15 +19,12 @@ class SignUp extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('handleSubmit', this.state.name, this.state.user,
-      this.state.address, this.state.password);
     if (this.state.confirm_password !== this.state.password){
       console.log('handleSubmit', "password missmatch");
 
     } else {
       this.setStateOnSubmit();
-      this.props.registerUser(this.state.name, this.state.user,
-        this.state.address, this.state.password);
+      this.props.registerUser(this.state.user,this.state.password);
     }
 
   }
@@ -43,25 +39,17 @@ class SignUp extends Component {
   }
 
   render() {
-    if (localStorage.getItem("logged_in") === "true"){
-      return <Home/>
+    if (this.props.token !== ''){
+      return <Home/>      
     }
     return (
       <form onSubmit={this.handleSubmit.bind(this)} className="mgtop container text-center">
         <h1>Sign Up</h1>
         <div className="trip-form">
           <input ref={(input) => this.user = input}
-            name="name"
-            onChange={this.handleChange.bind(this)}
-            className="form-control" type="text" placeholder='Name'/>
-          <input ref={(input) => this.user = input}
             name="user"
             onChange={this.handleChange.bind(this)}
-            className="form-control" type="text" placeholder='User'/>
-          <input ref={(input) => this.user = input}
-            name="address"
-            onChange={this.handleChange.bind(this)}
-            className="form-control" type="text" placeholder='Address'/>
+            className="form-control" type="text" placeholder='Email'/>
           <input ref={(input) => this.password = input}
             name="password"
             onChange={this.handleChange.bind(this)}

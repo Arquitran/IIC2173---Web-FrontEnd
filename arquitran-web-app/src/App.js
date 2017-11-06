@@ -10,7 +10,7 @@ import ProductList from './components/products/ProductList';
 import CategoryList from './components/products/CategoryList';
 import Product from './components/products/Product';
 
-import {URL_CATEGORIES, URL_PRODUCTS, MAX_PAGES} from './index';
+import {URL_CATEGORIES, URL_PRODUCTS, URL_SIGNUP, URL_SIGNIN, MAX_PAGES} from './index';
 
 import Axios from 'axios';
 
@@ -19,6 +19,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      token: '',
       jwt: null,
       logged_in: false,
       categories: [],
@@ -39,56 +40,58 @@ class App extends Component {
     console.log('logIn');
     // LIBRERIA AXIOS PARA FETCH
 
-    /*const url = "";
-    return fetch(url,  {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        auth: {
-          email: user,
-          password: password
-        }
-      })
+    let that = this
+    Axios.post(URL_SIGNIN, {
+      "email": user,
+      password
     })
-      .then(data => data.json())
-      .then(data => {
-        this.setState({
-          jwt: data.jwt,
-          logged_in: true
-        });
-        console.log(data.jwt);
-        reactLocalStorage.set('jwt', data.jwt);
-        reactLocalStorage.set('logged_in', true);
+    .then(function(response) {
+      that.setState({
+        token: response.data.token
       })
-      .catch(err => {
-        console.log('error in authUser',err);
-      });
-      */
-      this.setState({
-        jwt: "some jwt",
-        logged_in: true
-      });
-      //to save user information
-      localStorage.setItem('jwt', this.state.jwt);
-      localStorage.setItem('logged_in', true);
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('logged_in', true)
+    })
+    .catch(function(error) {
+      console.log(error)
+    });
   }
 
-  registerUser(name, user, address, password) {
+  registerUser(user,password) {
     console.log('signUp');
+    /*
       this.setState({
         jwt: "some jwt",
         logged_in: true
       });
       //to save user information
       localStorage.setItem('jwt', this.state.jwt);
-      localStorage.setItem('logged_in', true);
+      localStorage.setItem('logged_in', true);*/
+    let that = this
+    Axios.post(URL_SIGNUP, {
+      "email": user,
+      password
+    })
+    .then(function(response) {
+      that.setState({
+        token: response.data.token
+      })
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('logged_in', true)
+    })
+    .catch(function(error) {
+      console.log(error)
+    });
   }
 
   logOut() {
     console.log('logOut');
+    this.setState({
+      token: ''
+    })
+    localStorage.setItem('token', '')
+    localStorage.setItem('logged_in', false)
+    /*
     this.setState({
       jwt: null,
       logged_in: false,
@@ -96,6 +99,8 @@ class App extends Component {
     localStorage.setItem('jwt', null);
     localStorage.setItem('logged_in', false);
     console.log(localStorage.getItem("logged_in"));
+    */
+    
   }
 
   fetchSubCategories() {
@@ -206,13 +211,13 @@ submitOrder(address) {
     return (
       <BrowserRouter>
         <div>
-          <Navbar logOut={() => this.logOut()} total_cart={this.state.total_cart}/>
+          <Navbar logOut={() => this.logOut()} total_cart={this.state.total_cart} token={this.state.token}/>
           <Switch>
             <Route exact path='/web' component={Home}/>
             <Route path='/web/signin' render={props =>
-                <SignIn authUser={() => this.authUser()}/>}/>
+                <SignIn authUser={() => this.authUser()} token={this.state.token}/>}/>
             <Route path='/web/signup' render={props =>
-                <SignUp registerUser={() => this.registerUser()}/>}/>
+                <SignUp registerUser={() => this.registerUser()} token={this.state.token}/>}/>
             <Route path='/web/categories/:idSubCategory/:id' render = {props =>
                 <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
                          product={this.state.actual_product}

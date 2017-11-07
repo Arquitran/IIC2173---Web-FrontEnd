@@ -4,6 +4,12 @@ import { NavLink } from 'react-router-dom';
 
 class Navbar extends Component {
 
+  updateSearch = (e) => {
+    this.setState({
+      actualSearch: e.target.value
+    })
+  }
+
   render() {
     //if (localStorage.getItem("logged_in") === "true"){
     if (this.props.token !== '') {
@@ -27,6 +33,8 @@ class Navbar extends Component {
               <li className="nav-item">
                 <NavLink className="nav-link" activeClassName="active" to="/web" onClick={this.props.logOut}>Log Out</NavLink>
               </li>
+              <input className='right-btn-menu' type="text" placeholder="Search..." value = {this.props.actualSearch} onChange={this.props.updateSearchValue}/>
+              <NavLink exact className="nav-link" activeClassName="active" to="/web/search">Search</NavLink>
             </ul>
           </div>
         </nav>
@@ -45,14 +53,16 @@ class Navbar extends Component {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" activeClassName="active" to="/web/categories">Products</NavLink>
-            </li>
+            </li>            
             <li className="nav-item">
               <NavLink exact className="nav-link" activeClassName="active" to="/web/signin">Sign In</NavLink>
             </li>
             <li className="nav-item">
               <NavLink exact className="nav-link" activeClassName="active" to="/web/signup">Sign Up</NavLink>
             </li>
-          </ul>          
+          </ul>
+          <input className='right-btn-menu' type="text" placeholder="Search..." value = {this.props.actualSearch} onChange={this.props.updateSearchValue}/>
+          <NavLink className="nav-link" to="/web/search" >Search</NavLink>
         </div>
       </nav>
     );

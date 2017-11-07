@@ -9,6 +9,7 @@ import Home from './components/Home';
 import ProductList from './components/products/ProductList';
 import CategoryList from './components/products/CategoryList';
 import Product from './components/products/Product';
+import SearchProduct from './components/products/SearchProduct'
 
 import {URL_CATEGORIES, URL_PRODUCTS, URL_SIGNUP, URL_SIGNIN, URL_CART, MAX_PAGES} from './index';
 
@@ -31,7 +32,8 @@ class App extends Component {
       shopping_cart: [],
       total_cart:0,
       enableBuy: true,
-      total_price: 0
+      total_price: 0,
+      actualSearch: ''
 
     }
   }
@@ -148,6 +150,26 @@ class App extends Component {
     }
   }
 
+  fetchSearch(keyword) {
+    console.log('search by keyword: ' + keyword)
+    this.setState({ products: [] })
+    let i = 1;
+    while (i < MAX_PAGES) {
+      Axios.get(`${URL_PRODUCTS}?page=${i}`)
+           .then(response => {
+             response.data.map(product => {
+               if (product.name.indexOf(keyword) !== -1) {
+                 this.setState({ products: [...this.state.products, product] })
+               }
+               return true;
+             })
+           })
+           .catch(error => console.log(error));
+           i += 1;
+    }
+
+  }
+
   setActualSubCategory(subCategory) {
     this.setState({ actualSubCategory: subCategory })
   }
@@ -232,15 +254,22 @@ submitOrder(address) {
       total_price: 0
      })
   })
-  
 }
+
+  updateSearchValue(e) {
+    this.setState({
+      actualSearch: e.target.value
+    })
+  }
 
   render() {
 
     return (
       <BrowserRouter>
         <div>
-          <Navbar logOut={() => this.logOut()} total_cart={this.state.total_cart} token={this.state.token}/>
+          <Navbar logOut={() => this.logOut()} total_cart={this.state.total_cart} token={this.state.token} 
+                  updateSearchValue={(e) => this.updateSearchValue(e)}
+                  fetchSearch={(e) => this.fetchSearch(e)}/>
           <Switch>
             <Route exact path='/web' component={Home}/>
             <Route path='/web/signin' render={props =>
@@ -248,7 +277,7 @@ submitOrder(address) {
             <Route path='/web/signup' render={props =>
                 <SignUp registerUser={() => this.registerUser()} token={this.state.token}/>}/>
             <Route path='/web/categories/:idSubCategory/:id' render = {props =>
-                <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
+                <Product {...props} fetchProduct={(id) => this.fetchSearch(id)}
                          product={this.state.actual_product}
                          enableBuy={this.state.enableBuy}
                          addProductToCart={(product, q) => this.addProductToCart(product, q)}/>}/>
@@ -269,6 +298,12 @@ submitOrder(address) {
                 <Cart shopping_cart={this.state.shopping_cart}
                       total_price={this.state.total_price}
                       submitOrder={(address) => this.submitOrder(address)}/>}/>
+            <Route path='/web/search' render={props =>
+                <SearchProduct {...props} fetchProducts={(id) => this.fetchSearch(id)}
+                    products={this.state.products}
+                    categories={this.state.categories}
+                    actualSubCategory={this.state.actualSubCategory}
+                    actualSearch={this.state.actualSearch}/>}/>}/>
             <Route component={Page404}/>
           </Switch>
         </div>

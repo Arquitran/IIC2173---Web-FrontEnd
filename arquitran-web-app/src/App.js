@@ -277,7 +277,7 @@ submitOrder(address) {
             <Route path='/web/signup' render={props =>
                 <SignUp registerUser={() => this.registerUser()} token={this.state.token}/>}/>
             <Route path='/web/categories/:idSubCategory/:id' render = {props =>
-                <Product {...props} fetchProduct={(id) => this.fetchSearch(id)}
+                <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
                          product={this.state.actual_product}
                          enableBuy={this.state.enableBuy}
                          addProductToCart={(product, q) => this.addProductToCart(product, q)}/>}/>

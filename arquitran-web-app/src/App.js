@@ -10,7 +10,7 @@ import ProductList from './components/products/ProductList';
 import CategoryList from './components/products/CategoryList';
 import Product from './components/products/Product';
 
-import {URL_CATEGORIES, URL_PRODUCTS, URL_SIGNUP, URL_SIGNIN, MAX_PAGES} from './index';
+import {URL_CATEGORIES, URL_PRODUCTS, URL_SIGNUP, URL_SIGNIN, URL_CART, MAX_PAGES} from './index';
 
 import Axios from 'axios';
 
@@ -196,14 +196,43 @@ addProductToCart(product, quantity) {
 }
 
 submitOrder(address) {
-  //POST submit
   console.log("Post -> Order", address);
-  this.setState({
-    shopping_cart: [],
-    shopping_cart_count: 0,
-    total_cart:0,
-    total_price: 0
-   })
+  let jsonB = []
+  this.state.shopping_cart.forEach(function(cart_item) {
+    let innerItem = {}
+    innerItem['product_id'] = cart_item.id
+    innerItem['amount'] = cart_item.quantity
+    jsonB.push(innerItem)
+  })
+  let headers = {
+    'Content-Type': 'application/json',
+    'Authorization': this.state.token 
+  }
+  let that = this
+  Axios.post(URL_CART, jsonB, headers)
+  .then(function(response) {
+    that.state.shopping_cart.forEach(function(cart_item) {
+      if (response.data[cart_item.id] === 0) {
+        alert("El producto " + cart_item.name + " no pudo ser comprado")
+      }
+    })
+    that.setState({
+      shopping_cart: [],
+      shopping_cart_count: 0,
+      total_cart:0,
+      total_price: 0
+     })
+  })
+  .catch(function(error){
+    console.log(error)
+    that.setState({
+      shopping_cart: [],
+      shopping_cart_count: 0,
+      total_cart:0,
+      total_price: 0
+     })
+  })
+  
 }
 
   render() {

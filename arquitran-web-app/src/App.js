@@ -11,7 +11,7 @@ import CategoryList from './components/products/CategoryList';
 import Product from './components/products/Product';
 import SearchProduct from './components/products/SearchProduct'
 
-import {URL_CATEGORIES, URL_PRODUCTS, URL_SIGNUP, URL_SIGNIN, URL_CART, MAX_PAGES} from './index';
+import {URL_CATEGORIES, URL_PRODUCTS, URL_SIGNUP, URL_SIGNIN, URL_CART,URL_HISTORY, MAX_PAGES} from './index';
 
 import Axios from 'axios';
 
@@ -102,7 +102,7 @@ class App extends Component {
     localStorage.setItem('logged_in', false);
     console.log(localStorage.getItem("logged_in"));
     */
-    
+
   }
 
   fetchSubCategories() {
@@ -228,7 +228,7 @@ submitOrder(address) {
   })
   let headers = {
     'Content-Type': 'application/json',
-    'Authorization': this.state.token 
+    'Authorization': this.state.token
   }
   let that = this
   Axios.post(URL_CART, jsonB, headers)
@@ -267,7 +267,7 @@ submitOrder(address) {
     return (
       <BrowserRouter>
         <div>
-          <Navbar logOut={() => this.logOut()} total_cart={this.state.total_cart} token={this.state.token} 
+          <Navbar logOut={() => this.logOut()} total_cart={this.state.total_cart} token={this.state.token}
                   updateSearchValue={(e) => this.updateSearchValue(e)}
                   fetchSearch={(e) => this.fetchSearch(e)}/>
           <Switch>

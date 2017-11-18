@@ -11,7 +11,7 @@ import CategoryList from './components/products/CategoryList';
 import Product from './components/products/Product';
 import SearchProduct from './components/products/SearchProduct'
 
-import {URL_CATEGORIES, URL_PRODUCTS, URL_SIGNUP, URL_SIGNIN, URL_CART,URL_HISTORY, MAX_PAGES} from './index';
+import {URL_CATEGORIES, URL_PRODUCTS, URL_PRODUCT, URL_SIGNUP, URL_SIGNIN, URL_CART,URL_HISTORY, MAX_PAGES} from './index';
 
 import Axios from 'axios';
 
@@ -205,22 +205,18 @@ class App extends Component {
 
 fetchProduct(id) {
   console.log('fetchProduct', id);
-  var i = 1;
-  while (i < MAX_PAGES) {
-    Axios.get(`${URL_PRODUCTS}?page=${i}`)
+    Axios.get(`${URL_PRODUCT}/${id}?application_token=6d876925-a71d-4379-93aa-6144138dc8fc`)
          .then(response => {
-           response.data.map(product => {
-             product = Object.assign({}, product.fields, {id: product.pk})
-             if (product.id === id) {
-               this.setState({ actual_product: product })
+           console.log("product_response:",response)
+             //data = Object.assign({}, data.fields, {id: data.pk})
+             if (parseInt(response.data.meta.id, 10) === id) {
+               console.log("WWWW")
+               this.setState({ actual_product: response.data.value })
                return true
              }
              return false
-           })
          })
          .catch(error => console.log(error))
-         i += 1;
-  }
 
 }
 
@@ -247,13 +243,9 @@ submitOrder(address) {
     innerItem['product_id'] = cart_item.id
     innerItem['amount'] = cart_item.quantity
     jsonB.push(innerItem)
-  })
-  let headers = {
-    'Content-Type': 'application/json',
-    'Authorization': this.state.token
-  }
+  });
   let that = this
-  Axios.post(URL_CART, jsonB, headers)
+  Axios.post(URL_CART, jsonB, {headers: {'Access-Control-Allow-Origin': '*', 'Authorization': this.state.token, 'Content-Type': 'application/json'}})
   .then(function(response) {
     that.state.shopping_cart.forEach(function(cart_item) {
       if (response.data[cart_item.id] === 0) {

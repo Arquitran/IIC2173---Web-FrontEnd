@@ -38,15 +38,16 @@ class App extends Component {
     }
   }
 
-  authUser(user, password) {
+  authUser = (user, password) => {
     console.log('logIn');
     // LIBRERIA AXIOS PARA FETCH
 
     let that = this
     Axios.post(URL_SIGNIN, {
       "email": user,
-      password,
-      headers: {'Access-Control-Allow-Origin': '*'}
+      password
+    }, {
+      'Access-Control-Allow-Origin': '*'
     })
     .then(function(response) {
       that.setState({
@@ -60,7 +61,7 @@ class App extends Component {
     });
   }
 
-  registerUser(user,password) {
+  registerUser = (user,password) => {
     console.log('signUp');
     /*
       this.setState({
@@ -73,8 +74,9 @@ class App extends Component {
     let that = this
     Axios.post(URL_SIGNUP, {
       "email": user,
-      password,
-      headers: {'Access-Control-Allow-Origin': '*'}
+      password
+    }, {
+      'Access-Control-Allow-Origin': '*'
     })
     .then(function(response) {
       that.setState({
@@ -279,9 +281,9 @@ submitOrder(address) {
           <Switch>
             <Route exact path='/web' component={Home}/>
             <Route path='/web/signin' render={props =>
-                <SignIn authUser={() => this.authUser()} token={this.state.token}/>}/>
+                <SignIn authUser={this.authUser} token={this.state.token}/>}/>
             <Route path='/web/signup' render={props =>
-                <SignUp registerUser={() => this.registerUser()} token={this.state.token}/>}/>
+                <SignUp registerUser={this.registerUser} token={this.state.token}/>}/>
             <Route path='/web/categories/:idSubCategory/:id' render = {props =>
                 <Product {...props} fetchProduct={(id) => this.fetchProduct(id)}
                          product={this.state.actual_product}

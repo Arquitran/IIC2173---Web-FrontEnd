@@ -33,9 +33,9 @@ class Navbar extends Component {
               <li className="nav-item">
                 <NavLink className="nav-link" activeClassName="active" to="/web" onClick={this.props.logOut}>Log Out</NavLink>
               </li>
-              <input className='right-btn-menu' type="text" placeholder="Search..." value = {this.props.actualSearch} onChange={this.props.updateSearchValue}/>
-              <NavLink exact className="nav-link" activeClassName="active" to="/web/search">Search</NavLink>
             </ul>
+            <input className='right-btn-menu' type="text" placeholder="Search..." value = {this.props.actualSearch} onChange={this.props.updateSearchValue}/>
+            <NavLink className="btn nav-link" to="/web/search">Search</NavLink>
           </div>
         </nav>
       );

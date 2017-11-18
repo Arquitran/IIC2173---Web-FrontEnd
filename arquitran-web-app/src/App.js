@@ -171,9 +171,13 @@ class App extends Component {
     while (i < MAX_PAGES) {
       Axios.get(`${URL_PRODUCTS}?page=${i}`)
            .then(response => {
-             response.data.map(product => {
-               product = Object.assign({}, product.fields, {id: product.pk})
-               if (product.name.indexOf(keyword) !== -1) {
+             response.data.products.map(item => {
+               let id = item.pk;
+               let product = item.fields;
+               product['id'] = id;
+
+               //product = Object.assign({}, product.fields, {id: product.pk})
+               if (product.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
                  this.setState({ products: [...this.state.products, product] })
                }
                return true;

@@ -45,7 +45,8 @@ class App extends Component {
     let that = this
     Axios.post(URL_SIGNIN, {
       "email": user,
-      password
+      password,
+      headers: {'Access-Control-Allow-Origin': '*'}
     })
     .then(function(response) {
       that.setState({
@@ -72,7 +73,8 @@ class App extends Component {
     let that = this
     Axios.post(URL_SIGNUP, {
       "email": user,
-      password
+      password,
+      headers: {'Access-Control-Allow-Origin': '*'}
     })
     .then(function(response) {
       that.setState({
@@ -110,11 +112,12 @@ class App extends Component {
     this.setState({ subCategories: [], categories: [] })
     var i = 1;
     while (i < MAX_PAGES) {
-      Axios.get(`${URL_CATEGORIES}?page=${i}`)
+      Axios.get(`${URL_CATEGORIES}?page=${i}`, {headers: {'Access-Control-Allow-Origin': '*'}})
            .then(response => {
              if (response.data.length === 0) {
              }
              response.data.map(product => {
+               product = Object.assign({}, product.fields, {id: product.pk})
                this.setState({ subCategories: [...this.state.subCategories, product] })
                if (this.state.categories.indexOf(product.context) === -1) {
                  this.setState({ categories: [...this.state.categories, product.context] })
@@ -136,9 +139,10 @@ class App extends Component {
     this.setState({ products: [] })
     var i = 1;
     while (i < MAX_PAGES) {
-      Axios.get(`${URL_PRODUCTS}?page=${i}`)
+      Axios.get(`${URL_PRODUCTS}?page=${i}`, {headers: {'Access-Control-Allow-Origin': '*'}})
            .then(response => {
              response.data.map(product => {
+               product = Object.assign({}, product.fields, {id: product.pk})
                if (product.category === idSubCategory) {
                  this.setState({ products: [...this.state.products, product] })
                }
@@ -158,6 +162,7 @@ class App extends Component {
       Axios.get(`${URL_PRODUCTS}?page=${i}`)
            .then(response => {
              response.data.map(product => {
+               product = Object.assign({}, product.fields, {id: product.pk})
                if (product.name.indexOf(keyword) !== -1) {
                  this.setState({ products: [...this.state.products, product] })
                }
@@ -186,9 +191,10 @@ fetchProduct(id) {
   console.log('fetchProduct', id);
   var i = 1;
   while (i < MAX_PAGES) {
-    Axios.get(`${URL_PRODUCTS}?Page=${i}`)
+    Axios.get(`${URL_PRODUCTS}?page=${i}`)
          .then(response => {
            response.data.map(product => {
+             product = Object.assign({}, product.fields, {id: product.pk})
              if (product.id === id) {
                this.setState({ actual_product: product })
                return true

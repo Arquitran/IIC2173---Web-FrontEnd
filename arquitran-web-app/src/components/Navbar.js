@@ -53,7 +53,7 @@ class Navbar extends Component {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link" activeClassName="active" to="/web/categories">Products</NavLink>
-            </li>            
+            </li>
             <li className="nav-item">
               <NavLink exact className="nav-link" activeClassName="active" to="/web/signin">Sign In</NavLink>
             </li>
@@ -62,7 +62,7 @@ class Navbar extends Component {
             </li>
           </ul>
           <input className='right-btn-menu' type="text" placeholder="Search..." value = {this.props.actualSearch} onChange={this.props.updateSearchValue}/>
-          <NavLink className="nav-link" to="/web/search" >Search</NavLink>
+          <NavLink className="btn nav-link" to="/web/search" >Search</NavLink>
         </div>
       </nav>
     );

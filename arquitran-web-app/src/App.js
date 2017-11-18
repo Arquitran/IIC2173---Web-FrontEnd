@@ -114,16 +114,22 @@ class App extends Component {
     while (i < MAX_PAGES) {
       Axios.get(`${URL_CATEGORIES}?page=${i}`, {headers: {'Access-Control-Allow-Origin': '*'}})
            .then(response => {
+             console.log(response);
              if (response.data.length === 0) {
              }
-             response.data.map(product => {
-               product = Object.assign({}, product.fields, {id: product.pk})
-               this.setState({ subCategories: [...this.state.subCategories, product] })
-               if (this.state.categories.indexOf(product.context) === -1) {
-                 this.setState({ categories: [...this.state.categories, product.context] })
+             response.data.categories.map(product => {
+               let id = product.pk;
+               let category = product.fields;
+               category['id'] = id;
+
+               //category = Object.assign({}, category.fields, {id: category.pk})
+               this.setState({ subCategories: [...this.state.subCategories, category] })
+               if (this.state.categories.indexOf(category.context) === -1) {
+                 this.setState({ categories: [...this.state.categories, category.context] })
                }
                return true;
              })
+             console.log("**", this.state.categories);
              const actualCategory = this.state.categories[0];
              this.setState( {actualCategory} )
            })
@@ -141,8 +147,12 @@ class App extends Component {
     while (i < MAX_PAGES) {
       Axios.get(`${URL_PRODUCTS}?page=${i}`, {headers: {'Access-Control-Allow-Origin': '*'}})
            .then(response => {
-             response.data.map(product => {
-               product = Object.assign({}, product.fields, {id: product.pk})
+             console.log("*response", response);
+             response.data.products.map(item => {
+               let id = item.pk;
+               let product = item.fields;
+               product['id'] = id;
+               //product = Object.assign({}, product.fields, {id: product.pk})
                if (product.category === idSubCategory) {
                  this.setState({ products: [...this.state.products, product] })
                }
@@ -278,6 +288,7 @@ submitOrder(address) {
                   fetchSearch={(e) => this.fetchSearch(e)}/>
           <Switch>
             <Route exact path='/web' component={Home}/>
+            <Route exact path='/' component={Home}/>
             <Route path='/web/signin' render={props =>
                 <SignIn authUser={() => this.authUser()} token={this.state.token}/>}/>
             <Route path='/web/signup' render={props =>

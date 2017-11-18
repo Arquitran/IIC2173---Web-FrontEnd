@@ -21,6 +21,7 @@ class ProductList extends Component {
   }
 
   render() {
+    console.log(this.props.actualCategory)
     if (!this.props.actualCategory){
       return (<h3 className="text-center mgtop">Loading...</h3>)
     }

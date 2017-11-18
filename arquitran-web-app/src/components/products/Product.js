@@ -24,6 +24,7 @@ class Product extends Component {
         </div>
         )
     }
+    console.log("product", this.props.product);
     return (
       <div className="container">
         <button className="mgtop btn btn-outline-secondary"

@@ -28,6 +28,9 @@ class Navbar extends Component {
                 <NavLink className="nav-link" activeClassName="active" to="/web/categories">Products</NavLink>
               </li>
               <li className="nav-item">
+                <NavLink className="nav-link" activeClassName="active" to="/web/history">History</NavLink>
+              </li>
+              <li className="nav-item">
                 <NavLink className="nav-link" activeClassName="active" to="/web/cart">{`Cart (${this.props.total_cart})`}</NavLink>
               </li>
               <li className="nav-item">

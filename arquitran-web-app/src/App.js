@@ -9,7 +9,8 @@ import Home from './components/Home';
 import ProductList from './components/products/ProductList';
 import CategoryList from './components/products/CategoryList';
 import Product from './components/products/Product';
-import SearchProduct from './components/products/SearchProduct'
+import SearchProduct from './components/products/SearchProduct';
+import HistoryList from './components/products/HistoryList';
 
 import {URL_CATEGORIES, URL_PRODUCTS, URL_PRODUCT, URL_SIGNUP, URL_SIGNIN, URL_CART,URL_HISTORY, MAX_PAGES} from './index';
 
@@ -33,7 +34,8 @@ class App extends Component {
       total_cart:0,
       enableBuy: true,
       total_price: 0,
-      actualSearch: ''
+      actualSearch: '',
+      historyList: null
 
     }
   }
@@ -191,6 +193,14 @@ class App extends Component {
 
   }
 
+  fetchHistory() {
+    this.setState({ historyList: [] })
+    Axios.get(`${URL_HISTORY}`, {headers: {'Access-Control-Allow-Origin': '*', 'Authorization': this.state.token, 'Content-Type': 'application/json'}})
+      .then(response => {
+        console.log(response);
+      })
+  }
+
   setActualSubCategory(subCategory) {
     this.setState({ actualSubCategory: subCategory })
   }
@@ -210,8 +220,9 @@ fetchProduct(id) {
            console.log("product_response:",response)
              //data = Object.assign({}, data.fields, {id: data.pk})
              if (parseInt(response.data.meta.id, 10) === id) {
-               console.log("WWWW")
-               this.setState({ actual_product: response.data.value })
+               let product = response.data.value;
+               product['id'] = id;
+               this.setState({ actual_product: product })
                return true
              }
              return false
@@ -245,6 +256,7 @@ submitOrder(address) {
     jsonB.push(innerItem)
   });
   let that = this
+  console.log(jsonB);
   Axios.post(URL_CART, jsonB, {headers: {'Access-Control-Allow-Origin': '*', 'Authorization': this.state.token, 'Content-Type': 'application/json'}})
   .then(function(response) {
     that.state.shopping_cart.forEach(function(cart_item) {

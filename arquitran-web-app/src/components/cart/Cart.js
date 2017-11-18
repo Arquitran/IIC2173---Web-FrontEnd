@@ -36,9 +36,9 @@ class Cart extends Component {
     }
 
 
-    const cartitems = this.props.shopping_cart.map((product) => {
+    const cartitems = this.props.shopping_cart.map((product, idx) => {
       return (
-        <div className="card product-item" key={product.id}>
+        <div className="card product-item" key={idx}>
             <h5 className="card-header">{product.name}</h5>
             <img className="card-img-top" src={productImg} alt={product.name} />
             <div className="card-body">

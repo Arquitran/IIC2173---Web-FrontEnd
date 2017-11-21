@@ -97,8 +97,8 @@ class App extends Component {
     this.setState({
       token: ''
     })
-    localStorage.setItem('token', '')
-    localStorage.setItem('logged_in', false)
+    localStorage.removeItem("logged_in");
+    localStorage.removeItem("token");
     /*
     this.setState({
       jwt: null,
@@ -157,7 +157,7 @@ class App extends Component {
                let product = item.fields;
                product['id'] = id;
                //product = Object.assign({}, product.fields, {id: product.pk})
-               if (product.category === idSubCategory) {
+               if (product.category === idSubCategory || idSubCategory === -1) {
                  this.setState({ products: [...this.state.products, product] })
                }
                return true;
@@ -197,7 +197,8 @@ class App extends Component {
     this.setState({ historyList: [] })
     Axios.get(`${URL_HISTORY}`, {headers: {'Access-Control-Allow-Origin': '*', 'Authorization': this.state.token, 'Content-Type': 'application/json'}})
       .then(response => {
-        console.log(response);
+        console.log("HISTORY:", response);
+        this.setState({ historyList:  response.data})
       })
   }
 
@@ -331,6 +332,12 @@ submitOrder(address) {
                     categories={this.state.categories}
                     actualSubCategory={this.state.actualSubCategory}
                     actualSearch={this.state.actualSearch}/>}/>}/>
+            <Route path='/web/history' render={props =>
+                <HistoryList {...props} fetchHistory={() => this.fetchHistory()}
+                    fetchProducts={(id) => this.fetchProducts(id)}
+                    historyList={this.state.historyList}
+                    products={this.state.products}/>}/>}/>
+
             <Route component={Page404}/>
           </Switch>
         </div>

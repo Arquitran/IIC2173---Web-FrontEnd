@@ -48,9 +48,7 @@ class App extends Component {
     Axios.post(URL_SIGNIN, {
       "email": user,
       password
-    }, {
-      'Access-Control-Allow-Origin': '*'
-    })
+    }, {headers: {'Access-Control-Allow-Origin': '*'}})
     .then(function(response) {
       that.setState({
         token: response.data.token
@@ -77,9 +75,7 @@ class App extends Component {
     Axios.post(URL_SIGNUP, {
       "email": user,
       password
-    }, {
-      'Access-Control-Allow-Origin': '*'
-    })
+    }, {headers: {'Access-Control-Allow-Origin': '*'}})
     .then(function(response) {
       that.setState({
         token: response.data.token
@@ -157,7 +153,7 @@ class App extends Component {
                let product = item.fields;
                product['id'] = id;
                //product = Object.assign({}, product.fields, {id: product.pk})
-               if (product.category === idSubCategory || idSubCategory === -1) {
+               if (product.category === idSubCategory || idSubCategory === - 1) {
                  this.setState({ products: [...this.state.products, product] })
                }
                return true;
@@ -216,7 +212,7 @@ class App extends Component {
 
 fetchProduct(id) {
   console.log('fetchProduct', id);
-    Axios.get(`${URL_PRODUCT}/${id}?application_token=6d876925-a71d-4379-93aa-6144138dc8fc`)
+    Axios.get(`${URL_PRODUCT}/${id}`)
          .then(response => {
            console.log("product_response:",response)
              //data = Object.assign({}, data.fields, {id: data.pk})

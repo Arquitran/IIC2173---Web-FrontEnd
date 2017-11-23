@@ -24,6 +24,7 @@ class HistoryList extends Component {
             if (this.props.historyList[i].product === product.id ){
               return (
                   <div key={product.id}>
+                    <div className="card list-group-item-action">
                       <h5 className="card-header">{product.name}</h5>
                       <img className="card-img-top" src={productImg} alt={product.name} />
                       <div className="card-body">
@@ -31,6 +32,8 @@ class HistoryList extends Component {
                           <p className="card-title">Amount: {this.props.historyList[i].amount}</p>
                           <p className="card-title">${product.price}</p>
                       </div>
+                    </div>
+
                   </div>
                   )
             }

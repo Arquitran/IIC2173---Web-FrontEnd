@@ -42,7 +42,7 @@ class Cart extends Component {
             <h5 className="card-header">{product.name}</h5>
             <img className="card-img-top" src={productImg} alt={product.name} />
             <div className="card-body">
-              <p className="card-title">${product.price}</p>
+              <p className="card-title">${product.price} x {product.quantity}</p>
             </div>
 
 

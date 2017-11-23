@@ -37,7 +37,7 @@ class Navbar extends Component {
                 <NavLink className="nav-link" activeClassName="active" to="/web" onClick={this.props.logOut}>Log Out</NavLink>
               </li>
             </ul>
-            <input className='right-btn-menu' type="text" placeholder="Search..." value = {this.props.actualSearch} onChange={this.props.updateSearchValue}/>
+            <input className='right-btn-menu' type="text" placeholder="" value = {this.props.actualSearch} onChange={this.props.updateSearchValue}/>
             <NavLink className="btn nav-link" to="/web/search">Search</NavLink>
           </div>
         </nav>
@@ -64,7 +64,7 @@ class Navbar extends Component {
               <NavLink exact className="nav-link" activeClassName="active" to="/web/signup">Sign Up</NavLink>
             </li>
           </ul>
-          <input className='right-btn-menu' type="text" placeholder="Search..." value = {this.props.actualSearch} onChange={this.props.updateSearchValue}/>
+          <input className='right-btn-menu' type="text" placeholder="" value = {this.props.actualSearch} onChange={this.props.updateSearchValue}/>
           <NavLink className="btn nav-link" to="/web/search" >Search</NavLink>
         </div>
       </nav>

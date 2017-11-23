@@ -9,11 +9,14 @@ class AddProductToCart extends Component {
   }
 
   handleChange(e) {
-    /* FIJADO EN 1
+    // FIJADO EN 1
+    if (e.target.value > 3) {
+      return false;
+    }
     this.setState({
       [e.target.name]: e.target.value,
     })
-    */
+
   }
 
   handleSubmit(event) {

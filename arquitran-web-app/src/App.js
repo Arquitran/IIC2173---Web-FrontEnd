@@ -217,14 +217,16 @@ fetchProduct(id) {
 }
 
 addProductToCart(product, quantity) {
+  var currency = product.price
+  var price = Number(currency.replace(/[^0-9\.-]+/g,""));
   this.setState({ total_cart: this.state.total_cart + parseInt(quantity, 10) });
-  this.setState({ total_price: this.state.total_price + parseInt(product.price, 10) })
+  this.setState({ total_price: this.state.total_price + (parseInt(price, 10)*parseInt(quantity, 10) )})
 
   this.state.shopping_cart.push({
     id: product.id,
     quantity: quantity,
     name: product.name,
-    price: product.price
+    price: price
   })
   this.setState({shopping_cart_count: this.state.shopping_cart_count + 1})
   console.log(this.state.total_cart);

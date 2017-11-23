@@ -12,9 +12,9 @@ export const URL_PRODUCT = "https://private-edb58d-iic2113.apiary-mock.com/api/p
 */
 
 //
-export const URL_CATEGORIES = "https://arqss5.ing.puc.cl/web/categories";
-export const URL_PRODUCTS = "https://arqss5.ing.puc.cl/web/products";
-export const URL_PRODUCT = "https://arqss5.ing.puc.cl/web/product";
+export const URL_CATEGORIES = "https://arqss5.ing.puc.cl/categories";
+export const URL_PRODUCTS = "https://arqss5.ing.puc.cl/products";
+export const URL_PRODUCT = "https://arqss5.ing.puc.cl/product";
 export const URL_SIGNUP = "https:///arqss4.ing.puc.cl/api/signup";
 export const URL_SIGNIN = "https:///arqss4.ing.puc.cl/api/signin";
 export const URL_CART = "https://arqss4.ing.puc.cl/api/cart";

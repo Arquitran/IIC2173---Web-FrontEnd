@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import productImg from '../../assets/product.jpg';
 
 class HistoryList extends Component {
@@ -36,7 +35,7 @@ class HistoryList extends Component {
                   )
             }
           }
-
+          return true;
             }
         );
 

@@ -12,7 +12,7 @@ import Product from './components/products/Product';
 import SearchProduct from './components/products/SearchProduct';
 import HistoryList from './components/products/HistoryList';
 
-import {URL_CATEGORIES, URL_PRODUCTS, URL_PRODUCT, URL_SIGNUP, URL_SIGNIN, URL_CART,URL_HISTORY, MAX_PAGES} from './index';
+import {URL_CATEGORIES, URL_PRODUCTS, URL_PRODUCT, URL_SIGNUP, URL_SIGNIN, URL_CART,URL_HISTORY} from './index';
 
 import Axios from 'axios';
 
@@ -110,14 +110,12 @@ class App extends Component {
   fetchSubCategories() {
     console.log('fetchSubCategories');
     this.setState({ subCategories: [], categories: [] })
-    var i = 1;
-    while (i < MAX_PAGES) {
-      Axios.get(`${URL_CATEGORIES}?page=${i}`, {headers: {'Access-Control-Allow-Origin': '*'}})
+      Axios.get(`${URL_CATEGORIES}`, {headers: {'Access-Control-Allow-Origin': '*'}})
            .then(response => {
              console.log(response);
              if (response.data.length === 0) {
              }
-             response.data.categories.map(product => {
+             response.data.map(product => {
                let id = product.pk;
                let category = product.fields;
                category['id'] = id;
@@ -134,8 +132,6 @@ class App extends Component {
              this.setState( {actualCategory} )
            })
            .catch(error => console.log(error));
-           i += 1;
-    }
 
 
   }
@@ -143,12 +139,10 @@ class App extends Component {
   fetchProducts(idSubCategory) {
     console.log('fetchProducts');
     this.setState({ products: [] })
-    var i = 1;
-    while (i < MAX_PAGES) {
-      Axios.get(`${URL_PRODUCTS}?page=${i}`, {headers: {'Access-Control-Allow-Origin': '*'}})
+      Axios.get(`${URL_PRODUCTS}`, {headers: {'Access-Control-Allow-Origin': '*'}})
            .then(response => {
              console.log("*response", response);
-             response.data.products.map(item => {
+             response.data.map(item => {
                let id = item.pk;
                let product = item.fields;
                product['id'] = id;
@@ -160,18 +154,14 @@ class App extends Component {
              })
            })
            .catch(error => console.log(error));
-           i += 1;
-    }
   }
 
   fetchSearch(keyword) {
     console.log('search by keyword: ' + keyword)
     this.setState({ products: [] })
-    let i = 1;
-    while (i < MAX_PAGES) {
-      Axios.get(`${URL_PRODUCTS}?page=${i}`)
+      Axios.get(`${URL_PRODUCTS}`)
            .then(response => {
-             response.data.products.map(item => {
+             response.data.map(item => {
                let id = item.pk;
                let product = item.fields;
                product['id'] = id;
@@ -184,8 +174,6 @@ class App extends Component {
              })
            })
            .catch(error => console.log(error));
-           i += 1;
-    }
 
   }
 
